@@ -1,0 +1,7 @@
+{
+  "name": "Temple Pooja Verification",
+  "description": "A digital audit system for temple rituals using AI-powered image verification to ensure daily pooja consistency and transparency.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
