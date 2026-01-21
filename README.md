@@ -47,7 +47,7 @@ The frontend connects to:
 
 ### `src/config.ts`
 
-```ts
+ts
 export const config = {
   API_BASE_URL: import.meta.env.VITE_API_URL,
   AI_API_URL: import.meta.env.VITE_AI_API_URL
@@ -55,13 +55,13 @@ export const config = {
 
 ---
 
-⚠️ Notes:
+## ⚠️ Notes:
 
 Must start with VITE_
 
 Restart dev server after changes
 
-▶️ Run Locally
+## ▶️ Run Locally
 npm install
 npm run dev
 
@@ -73,7 +73,7 @@ http://localhost:5173
 
 ---
 
-🔐 Authentication Flow
+## 🔐 Authentication Flow
 
 User registers temple account
 
@@ -87,7 +87,7 @@ Session persists until logout
 
 ---
 
-📤 Pooja Verification Flow
+## 📤 Pooja Verification Flow
 
 Upload today's pooja image
 
@@ -113,7 +113,7 @@ Reason list
 
 ---
 
-🚀 Deployment (Vercel)
+## 🚀 Deployment (Vercel)
 Steps
 
 Push frontend to GitHub
@@ -140,7 +140,7 @@ dist
 
 ---
 
-🧪 Common Errors & Fixes
+## 🧪 Common Errors & Fixes
 ❌ Backend not reachable
 
 ✔️ Check API URL
@@ -159,7 +159,7 @@ dist
 
 ---
 
-📈 Future Enhancements
+## 📈 Future Enhancements
 
 Admin dashboard
 
@@ -173,7 +173,7 @@ Progressive Web App (PWA)
 
 ---
 
-👤 Author
+## 👤 Author
 
 Hemanth B
 Full Stack & AI Developer
