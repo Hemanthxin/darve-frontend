@@ -7,7 +7,7 @@ export async function verifyPooja(
   formData.append("yesterday_image", yesterdayImage);
 
   const response = await fetch(
-    "https://desirae-iracund-dextrosinistrally.ngrok-free.dev/verify",
+    "https://hemanthb2004-drave-ai-verifier.hf.space/verify",
     {
       method: "POST",
       body: formData,
