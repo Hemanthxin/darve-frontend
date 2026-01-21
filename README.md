@@ -176,6 +176,7 @@ Progressive Web App (PWA)
 ## 👤 Author
 
 Hemanth B
+
 Full Stack & AI Developer
 
 Project: DARVE – Daily Authentic Ritual Verification Engine
