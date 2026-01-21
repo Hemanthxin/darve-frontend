@@ -43,79 +43,6 @@ The frontend connects to:
 
 ---
 
-## 📂 Folder Structure
-
-# 🕉️ DARVE Frontend – Temple Pooja Verification System
-
-This repository contains the **frontend application** for **DARVE (Daily Authentic Ritual Verification Engine)**.  
-The frontend allows temple authorities to **register, login, upload pooja images, and view AI-based verification results** in a clean and modern UI.
-
-The frontend connects to:
-- 🔐 **FastAPI Authentication Backend (Railway)**
-- 🤖 **AI Verification API (Hugging Face Spaces)**
-
----
-
-## 🚀 Live Deployment
-
-- **Frontend (Vercel):** https://<your-vercel-url>
-- **Auth Backend (Railway):** https://web-production-fcbc.up.railway.app
-- **AI Verification API:** https://darve-ai-verification.hf.space
-
----
-
-## ✨ Features
-
-- 🔐 Secure Login & Registration
-- 🏛️ Temple-based user onboarding
-- 📤 Upload Today & Yesterday Pooja Images
-- 🤖 AI-powered ritual verification
-- 📊 Clean UI with status & reason breakdown
-- ⚡ Ultra-fast Vite build
-- 📱 Fully responsive (mobile + desktop)
-
----
-
-## 🧱 Tech Stack
-
-| Layer | Technology |
-|-----|------------|
-| Framework | React 19 |
-| Build Tool | Vite |
-| Language | TypeScript |
-| Routing | React Router |
-| HTTP Client | Fetch / Axios |
-| Styling | Tailwind CSS + Custom CSS |
-| Charts | Recharts |
-
----
-
-## 📂 Folder Structure
-
-frontend/
-├── src/
-│ ├── components/
-│ │ ├── auth/
-│ │ │ ├── Login.tsx
-│ │ │ └── Register.tsx
-│ │ ├── PoojaUpload.tsx
-│ │ └── OmGlow.tsx
-│ ├── services/
-│ │ ├── authService.ts
-│ │ └── darveService.ts
-│ ├── config.ts
-│ ├── App.tsx
-│ ├── main.tsx
-│ └── styles/
-├── public/
-├── index.html
-├── package.json
-├── vite.config.ts
-└── README.md
-
-
----
-
 ## 🔗 API Configuration
 
 ### `src/config.ts`
@@ -125,16 +52,6 @@ export const config = {
   API_BASE_URL: import.meta.env.VITE_API_URL,
   AI_API_URL: import.meta.env.VITE_AI_API_URL
 };
-
-
----
-
-🌱 Environment Variables
-
-Create a .env file in the frontend root:
-
-VITE_API_URL=https://web-production-fcbc.up.railway.app
-VITE_AI_API_URL=https://darve-ai-verification.hf.space
 
 ---
 
