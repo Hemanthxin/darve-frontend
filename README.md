@@ -11,9 +11,9 @@ The frontend connects to:
 
 ## 🚀 Live Deployment
 
-- **Frontend (Vercel):** https://<your-vercel-url>
-- **Auth Backend (Railway):** https://web-production-fcbc.up.railway.app
-- **AI Verification API:** https://darve-ai-verification.hf.space
+- **Frontend (Vercel)**
+- **Auth Backend (Railway)** 
+- **AI Verification MODELS(Hugging Face)**
 
 ---
 
