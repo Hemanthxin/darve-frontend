@@ -1,4 +1,5 @@
 import { useState } from "react";
+import exifr from "exifr";
 import { User, PoojaRecord } from "../types";
 import { verifyPooja } from "../services/darveService";
 
@@ -7,6 +8,28 @@ interface PoojaUploadProps {
   yesterdayRecord?: PoojaRecord;
   onRecordCreated: (record: PoojaRecord) => void;
 }
+
+/* ---------- CAMERA + GPS VALIDATION ---------- */
+const validateCameraImage = async (file: File): Promise<boolean> => {
+  if (!file.type.startsWith("image/")) {
+    alert("Only image files are allowed");
+    return false;
+  }
+
+  try {
+    const exif = await exifr.parse(file, { gps: true });
+
+    if (!exif || !exif.latitude || !exif.longitude) {
+      alert("❌ Please capture image using camera with location enabled");
+      return false;
+    }
+
+    return true;
+  } catch {
+    alert("❌ Invalid image. Use camera only with location ON");
+    return false;
+  }
+};
 
 const PoojaUpload: React.FC<PoojaUploadProps> = ({
   user,
@@ -20,7 +43,7 @@ const PoojaUpload: React.FC<PoojaUploadProps> = ({
 
   const handleVerify = async () => {
     if (!todayImage || !yesterdayImage) {
-      alert("Please upload both images");
+      alert("Please capture both images");
       return;
     }
 
@@ -45,7 +68,7 @@ const PoojaUpload: React.FC<PoojaUploadProps> = ({
         };
         onRecordCreated(record);
       }
-    } catch (e) {
+    } catch {
       alert("Verification failed. Check backend.");
     } finally {
       setLoading(false);
@@ -73,18 +96,16 @@ const PoojaUpload: React.FC<PoojaUploadProps> = ({
           </p>
         </div>
 
-        {/* STEP 1 */}
+        {/* UPLOADS */}
         <div className="space-y-6">
-          {/* TODAY */}
           <UploadCard
-            label="Upload Pooja Image"
+            label="Capture Today Pooja Image"
             file={todayImage}
             onChange={setTodayImage}
           />
 
-          {/* YESTERDAY */}
           <UploadCard
-            label="Upload Same Pooja Image Again"
+            label="Capture Same Pooja Image Again"
             file={yesterdayImage}
             onChange={setYesterdayImage}
           />
@@ -140,7 +161,7 @@ const PoojaUpload: React.FC<PoojaUploadProps> = ({
   );
 };
 
-/* ---------------- UPLOAD CARD ---------------- */
+/* ---------- UPLOAD CARD ---------- */
 
 const UploadCard = ({
   label,
@@ -161,20 +182,34 @@ const UploadCard = ({
         <input
           type="file"
           accept="image/*"
+          capture="environment"
           className="hidden"
-          onChange={(e) =>
-            onChange(e.target.files ? e.target.files[0] : null)
-          }
+          onChange={async (e) => {
+            const file = e.target.files ? e.target.files[0] : null;
+            if (!file) {
+              onChange(null);
+              return;
+            }
+
+            const valid = await validateCameraImage(file);
+            if (!valid) {
+              e.target.value = "";
+              onChange(null);
+              return;
+            }
+
+            onChange(file);
+          }}
         />
 
         {!file ? (
           <>
             <div className="text-3xl mb-2">📸</div>
             <p className="text-sm font-semibold text-orange-600">
-              Click to upload image
+              Tap to capture image
             </p>
             <p className="text-[10px] text-gray-400 mt-1 uppercase">
-              JPG / PNG only
+              Camera only • Location ON
             </p>
           </>
         ) : (
