@@ -44,7 +44,9 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
     setError(null);
     setSuccess(null);
 
-    //  Required fields
+    /* =======================
+       CLIENT VALIDATION
+    ======================= */
     if (
       !form.name ||
       !form.email ||
@@ -56,13 +58,11 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
       return;
     }
 
-    //  Email validation
     if (!isValidEmail(form.email)) {
       setError("Please enter a valid email address");
       return;
     }
 
-    //  Password strength validation
     if (!isStrongPassword(form.password)) {
       setError(
         "Password must be at least 8 characters long and include a letter, a number, and a special character"
@@ -70,7 +70,6 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
       return;
     }
 
-    //  Password match
     if (form.password !== form.confirm) {
       setError("Passwords do not match");
       return;
@@ -81,7 +80,9 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
     try {
       const response = await fetch(`${API_BASE}/auth/register`, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           name: form.name,
           email: form.email,
@@ -90,12 +91,21 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
         }),
       });
 
-      const data = await response.json();
+      // 🔥 SAFE RESPONSE PARSING (FIX)
+      let data: any = null;
+      const text = await response.text();
 
-      if (!response.ok) {
-        throw new Error(data.detail || data.message || "Registration failed");
+      if (text) {
+        data = JSON.parse(text);
       }
 
+      if (!response.ok) {
+        throw new Error(
+          data?.detail || data?.message || "Registration failed"
+        );
+      }
+
+      // ✅ SUCCESS
       setSuccess("Registration successful. Please login.");
       setForm({
         name: "",
@@ -183,7 +193,7 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
 
         <button
           onClick={handleRegister}
-          disabled={loading}
+          disabled={loading || !!success}
           className="auth-button mt-6 disabled:opacity-60"
         >
           {loading ? "Registering..." : "Register"}
