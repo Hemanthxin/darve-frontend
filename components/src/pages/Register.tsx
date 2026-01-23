@@ -3,10 +3,23 @@ import OmGlow from "../../OmGlow";
 import "../../styles/auth.css";
 import { config } from "../../../src/config";
 
-
 interface RegisterProps {
   onSwitchToLogin: () => void;
 }
+
+/* =======================
+   VALIDATION HELPERS
+======================= */
+const isValidEmail = (email: string) => {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+};
+
+const isStrongPassword = (password: string) => {
+  // At least 8 chars, 1 letter, 1 number, 1 special character
+  return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
+    password
+  );
+};
 
 const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
   const API_BASE = config.API_BASE_URL;
@@ -31,11 +44,33 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
     setError(null);
     setSuccess(null);
 
-    if (!form.name || !form.email || !form.templeId || !form.password) {
+    //  Required fields
+    if (
+      !form.name ||
+      !form.email ||
+      !form.templeId ||
+      !form.password ||
+      !form.confirm
+    ) {
       setError("All fields are required");
       return;
     }
 
+    //  Email validation
+    if (!isValidEmail(form.email)) {
+      setError("Please enter a valid email address");
+      return;
+    }
+
+    //  Password strength validation
+    if (!isStrongPassword(form.password)) {
+      setError(
+        "Password must be at least 8 characters long and include a letter, a number, and a special character"
+      );
+      return;
+    }
+
+    //  Password match
     if (form.password !== form.confirm) {
       setError("Passwords do not match");
       return;
@@ -69,7 +104,6 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
         password: "",
         confirm: "",
       });
-
     } catch (err: any) {
       setError(
         err.message === "Failed to fetch"
@@ -104,11 +138,47 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
         )}
 
         <div className="space-y-4 mt-6">
-          <input name="name" placeholder="Name" value={form.name} onChange={handleChange} className="auth-input" />
-          <input name="email" placeholder="Email Address" value={form.email} onChange={handleChange} className="auth-input" />
-          <input name="templeId" placeholder="Temple ID" value={form.templeId} onChange={handleChange} className="auth-input" />
-          <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} className="auth-input" />
-          <input type="password" name="confirm" placeholder="Confirm Password" value={form.confirm} onChange={handleChange} className="auth-input" />
+          <input
+            name="name"
+            placeholder="Name"
+            value={form.name}
+            onChange={handleChange}
+            className="auth-input"
+          />
+
+          <input
+            name="email"
+            placeholder="Email Address"
+            value={form.email}
+            onChange={handleChange}
+            className="auth-input"
+          />
+
+          <input
+            name="templeId"
+            placeholder="Temple ID"
+            value={form.templeId}
+            onChange={handleChange}
+            className="auth-input"
+          />
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={form.password}
+            onChange={handleChange}
+            className="auth-input"
+          />
+
+          <input
+            type="password"
+            name="confirm"
+            placeholder="Confirm Password"
+            value={form.confirm}
+            onChange={handleChange}
+            className="auth-input"
+          />
         </div>
 
         <button
@@ -119,7 +189,6 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
           {loading ? "Registering..." : "Register"}
         </button>
 
-        {/* ✅ FIXED LOGIN SWITCH */}
         <p className="auth-footer">
           Already registered?{" "}
           <button
