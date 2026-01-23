@@ -7,19 +7,13 @@ interface RegisterProps {
   onSwitchToLogin: () => void;
 }
 
-/* =======================
-   VALIDATION HELPERS
-======================= */
-const isValidEmail = (email: string) => {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-};
+const isValidEmail = (email: string) =>
+  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
-const isStrongPassword = (password: string) => {
-  // At least 8 chars, 1 letter, 1 number, 1 special character
-  return /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
+const isStrongPassword = (password: string) =>
+  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
     password
   );
-};
 
 const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
   const API_BASE = config.API_BASE_URL;
@@ -41,12 +35,11 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
   };
 
   const handleRegister = async () => {
+    if (loading) return; // 🔒 prevent double click
+
     setError(null);
     setSuccess(null);
 
-    /* =======================
-       CLIENT VALIDATION
-    ======================= */
     if (
       !form.name ||
       !form.email ||
@@ -65,7 +58,7 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
 
     if (!isStrongPassword(form.password)) {
       setError(
-        "Password must be at least 8 characters long and include a letter, a number, and a special character"
+        "Password must contain at least 8 characters, a letter, a number, and a special character"
       );
       return;
     }
@@ -80,9 +73,7 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
     try {
       const response = await fetch(`${API_BASE}/auth/register`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           name: form.name,
           email: form.email,
@@ -91,12 +82,12 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
         }),
       });
 
-      // 🔥 SAFE RESPONSE PARSING (FIX)
       let data: any = null;
-      const text = await response.text();
+      const contentType = response.headers.get("content-type");
 
-      if (text) {
-        data = JSON.parse(text);
+      // ✅ SAFE JSON PARSING
+      if (contentType && contentType.includes("application/json")) {
+        data = await response.json();
       }
 
       if (!response.ok) {
@@ -105,7 +96,6 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
         );
       }
 
-      // ✅ SUCCESS
       setSuccess("Registration successful. Please login.");
       setForm({
         name: "",
@@ -155,7 +145,6 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
             onChange={handleChange}
             className="auth-input"
           />
-
           <input
             name="email"
             placeholder="Email Address"
@@ -163,7 +152,6 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
             onChange={handleChange}
             className="auth-input"
           />
-
           <input
             name="templeId"
             placeholder="Temple ID"
@@ -171,7 +159,6 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
             onChange={handleChange}
             className="auth-input"
           />
-
           <input
             type="password"
             name="password"
@@ -180,7 +167,6 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
             onChange={handleChange}
             className="auth-input"
           />
-
           <input
             type="password"
             name="confirm"
