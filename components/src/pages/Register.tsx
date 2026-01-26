@@ -3,17 +3,10 @@ import OmGlow from "../../OmGlow";
 import "../../styles/auth.css";
 import { config } from "../../../src/config";
 
+
 interface RegisterProps {
   onSwitchToLogin: () => void;
 }
-
-const isValidEmail = (email: string) =>
-  /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-const isStrongPassword = (password: string) =>
-  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/.test(
-    password
-  );
 
 const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
   const API_BASE = config.API_BASE_URL;
@@ -35,31 +28,11 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
   };
 
   const handleRegister = async () => {
-    if (loading) return; // 🔒 prevent double click
-
     setError(null);
     setSuccess(null);
 
-    if (
-      !form.name ||
-      !form.email ||
-      !form.templeId ||
-      !form.password ||
-      !form.confirm
-    ) {
+    if (!form.name || !form.email || !form.templeId || !form.password) {
       setError("All fields are required");
-      return;
-    }
-
-    if (!isValidEmail(form.email)) {
-      setError("Please enter a valid email address");
-      return;
-    }
-
-    if (!isStrongPassword(form.password)) {
-      setError(
-        "Password must contain at least 8 characters, a letter, a number, and a special character"
-      );
       return;
     }
 
@@ -82,18 +55,10 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
         }),
       });
 
-      let data: any = null;
-      const contentType = response.headers.get("content-type");
-
-      // ✅ SAFE JSON PARSING
-      if (contentType && contentType.includes("application/json")) {
-        data = await response.json();
-      }
+      const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(
-          data?.detail || data?.message || "Registration failed"
-        );
+        throw new Error(data.detail || data.message || "Registration failed");
       }
 
       setSuccess("Registration successful. Please login.");
@@ -104,6 +69,7 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
         password: "",
         confirm: "",
       });
+
     } catch (err: any) {
       setError(
         err.message === "Failed to fetch"
@@ -138,53 +104,22 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
         )}
 
         <div className="space-y-4 mt-6">
-          <input
-            name="name"
-            placeholder="Name"
-            value={form.name}
-            onChange={handleChange}
-            className="auth-input"
-          />
-          <input
-            name="email"
-            placeholder="Email Address"
-            value={form.email}
-            onChange={handleChange}
-            className="auth-input"
-          />
-          <input
-            name="templeId"
-            placeholder="Temple ID"
-            value={form.templeId}
-            onChange={handleChange}
-            className="auth-input"
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-            className="auth-input"
-          />
-          <input
-            type="password"
-            name="confirm"
-            placeholder="Confirm Password"
-            value={form.confirm}
-            onChange={handleChange}
-            className="auth-input"
-          />
+          <input name="name" placeholder="Name" value={form.name} onChange={handleChange} className="auth-input" />
+          <input name="email" placeholder="Email Address" value={form.email} onChange={handleChange} className="auth-input" />
+          <input name="templeId" placeholder="Temple ID" value={form.templeId} onChange={handleChange} className="auth-input" />
+          <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} className="auth-input" />
+          <input type="password" name="confirm" placeholder="Confirm Password" value={form.confirm} onChange={handleChange} className="auth-input" />
         </div>
 
         <button
           onClick={handleRegister}
-          disabled={loading || !!success}
+          disabled={loading}
           className="auth-button mt-6 disabled:opacity-60"
         >
           {loading ? "Registering..." : "Register"}
         </button>
 
+        {/* ✅ FIXED LOGIN SWITCH */}
         <p className="auth-footer">
           Already registered?{" "}
           <button
