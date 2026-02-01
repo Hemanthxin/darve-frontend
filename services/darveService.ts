@@ -6,14 +6,16 @@ export async function verifyPooja(
   formData.append("today_image", todayImage);
   formData.append("yesterday_image", yesterdayImage);
 
+  const token = localStorage.getItem("token");
+
   const response = await fetch(
-    "https://hemanthb2004-drave-ai-verifier.hf.space/verify",
+    "https://web-production-fcbc.up.railway.app/verify/",
     {
       method: "POST",
-      body: formData,
       headers: {
-        "ngrok-skip-browser-warning": "true",
+        Authorization: "Bearer " + token,  // 🔐 required
       },
+      body: formData,
     }
   );
 
