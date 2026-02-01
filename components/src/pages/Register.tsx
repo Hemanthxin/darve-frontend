@@ -61,7 +61,7 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
         throw new Error(data.detail || data.message || "Registration failed");
       }
 
-      setSuccess("Registration successful. Please login.");
+      setSuccess("Registration successful. A welcome email has been sent(Please Check in Spam if u didn't find mail). Please login.");
       setForm({
         name: "",
         email: "",
