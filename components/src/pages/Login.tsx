@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { User } from "../../../types";
 import { config } from "../../../src/config";
+import AuthLayout from "./AuthLayout";
 import "../../styles/login.css";
 
 interface LoginProps {
@@ -99,134 +100,73 @@ const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToRegister }) => {
   };
 
   return (
-    <div className="login-page">
-      <div className="login-overlay" />
-
-      {/* =======================
-         LEFT HERO
-      ======================= */}
-      <div className="login-hero">
-        <div className="login-hero-heading">
-          <span className="login-flourish">✦</span>
-          <h1>
-            Preserving Rituals.
-            <br />
-            Ensuring Devotion.
-          </h1>
-          <span className="login-flourish">✦</span>
-          <p>AI-Powered Verification for Sacred Ritual Practices</p>
+    <AuthLayout>
+      <div className="login-card-logo">
+        <div className="login-card-logo-circle">
+          <i className="fa-solid fa-place-of-worship" />
         </div>
-
-        <div className="login-badge-ring">
-          <div className="login-badge-inner">
-            <i className="fa-solid fa-spa" />
-            <span>
-              Sacred Traditions
-              <br />
-              Powered by AI
-            </span>
-          </div>
-        </div>
-
-        <div className="login-chips">
-          <div className="login-chip">
-            <span className="login-chip-icon">
-              <i className="fa-solid fa-shield-halved" />
-            </span>
-            Authentic
-            <br />
-            Verification
-          </div>
-          <div className="login-chip">
-            <span className="login-chip-icon">
-              <i className="fa-solid fa-microchip" />
-            </span>
-            AI-Powered
-            <br />
-            Accuracy
-          </div>
-          <div className="login-chip">
-            <span className="login-chip-icon">
-              <i className="fa-solid fa-lock" />
-            </span>
-            Secure &amp;
-            <br />
-            Reliable
-          </div>
-        </div>
+        <h2>Temple Rituals</h2>
+        <h3>Verifier</h3>
+        <p>Secure Login Portal</p>
       </div>
 
-      {/* =======================
-         RIGHT LOGIN CARD
-      ======================= */}
-      <div className="login-card">
-        <div className="login-card-logo">
-          <div className="login-card-logo-circle">
-            <i className="fa-solid fa-place-of-worship" />
-          </div>
-          <h2>Temple Rituals</h2>
-          <h3>Verifier</h3>
-          <p>Secure Login Portal</p>
-        </div>
+      {error && <div className="login-error">{error}</div>}
 
-        {error && <div className="login-error">{error}</div>}
+      <div className="login-input-group">
+        <i className="fa-solid fa-user login-input-icon" />
+        <input
+          type="email"
+          placeholder="Email Address"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+      </div>
 
-        <div className="login-input-group">
-          <i className="fa-solid fa-user login-input-icon" />
-          <input
-            type="email"
-            placeholder="Email Address"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-          />
-        </div>
-
-        <div className="login-input-group">
-          <i className="fa-solid fa-lock login-input-icon" />
-          <input
-            type={showPassword ? "text" : "password"}
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button
-            type="button"
-            className="login-eye-toggle"
-            onClick={() => setShowPassword((v) => !v)}
-            aria-label={showPassword ? "Hide password" : "Show password"}
-          >
-            <i className={`fa-solid ${showPassword ? "fa-eye" : "fa-eye-slash"}`} />
-          </button>
-        </div>
-
-        <div className="login-forgot-row">
-          <button onClick={() => setShowForgot(true)}>Forgot password?</button>
-        </div>
-
+      <div className="login-input-group">
+        <i className="fa-solid fa-lock login-input-icon" />
+        <input
+          type={showPassword ? "text" : "password"}
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
         <button
-          className="login-submit"
-          onClick={handleLogin}
-          disabled={loading}
+          type="button"
+          className="login-eye-toggle"
+          onClick={() => setShowPassword((v) => !v)}
+          aria-label={showPassword ? "Hide password" : "Show password"}
         >
-          <i className="fa-solid fa-shield-halved" />
-          {loading ? "Logging in..." : "Login"}
+          <i className={`fa-solid ${showPassword ? "fa-eye" : "fa-eye-slash"}`} />
         </button>
-
-        <div className="login-divider">
-          <span>or continue with</span>
-        </div>
-
-        <div className="login-social-row">
-          <button className="login-social-btn" aria-label="Continue with SSO">
-            <i className="fa-solid fa-shield-halved" />
-          </button>
-        </div>
-
-        <p className="login-register-row">
-          New here?{" "}
-          <button onClick={onSwitchToRegister}>Create an account</button>
-        </p>
       </div>
+
+      <div className="login-forgot-row">
+        <button onClick={() => setShowForgot(true)}>Forgot password?</button>
+      </div>
+
+      <button
+        className="login-submit"
+        onClick={handleLogin}
+        disabled={loading}
+      >
+        <i className="fa-solid fa-shield-halved" />
+        {loading ? "Logging in..." : "Login"}
+      </button>
+
+      <div className="login-divider">
+        <span>or continue with</span>
+      </div>
+
+      <div className="login-social-row">
+        <button className="login-social-btn" aria-label="Continue with SSO">
+          <i className="fa-solid fa-shield-halved" />
+        </button>
+      </div>
+
+      <p className="login-register-row">
+        New here?{" "}
+        <button onClick={onSwitchToRegister}>Create an account</button>
+      </p>
 
       {/* =======================
          FORGOT PASSWORD MODAL
@@ -270,7 +210,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToRegister }) => {
           </div>
         </div>
       )}
-    </div>
+    </AuthLayout>
   );
 };
 

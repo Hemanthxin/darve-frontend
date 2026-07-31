@@ -1,8 +1,7 @@
 import { useState } from "react";
-import OmGlow from "../../OmGlow";
-import "../../styles/auth.css";
+import AuthLayout from "./AuthLayout";
+import "../../styles/login.css";
 import { config } from "../../../src/config";
-
 
 interface RegisterProps {
   onSwitchToLogin: () => void;
@@ -19,6 +18,8 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
     confirm: "",
   });
 
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirm, setShowConfirm] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -82,55 +83,101 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
   };
 
   return (
-    <div className="auth-bg">
-      <div className="auth-card">
-        <OmGlow />
-
-        <h1 className="auth-title">Temple Verifier</h1>
-        <p className="auth-subtitle">
-          Sacred Registration for Daily Ritual Compliance
-        </p>
-
-        {error && (
-          <div className="bg-red-100 text-red-700 text-sm p-3 rounded-xl mt-4">
-            {error}
-          </div>
-        )}
-
-        {success && (
-          <div className="bg-green-100 text-green-700 text-sm p-3 rounded-xl mt-4">
-            {success}
-          </div>
-        )}
-
-        <div className="space-y-4 mt-6">
-          <input name="name" placeholder="Name" value={form.name} onChange={handleChange} className="auth-input" />
-          <input name="email" placeholder="Email Address" value={form.email} onChange={handleChange} className="auth-input" />
-          <input name="templeId" placeholder="Temple ID" value={form.templeId} onChange={handleChange} className="auth-input" />
-          <input type="password" name="password" placeholder="Password" value={form.password} onChange={handleChange} className="auth-input" />
-          <input type="password" name="confirm" placeholder="Confirm Password" value={form.confirm} onChange={handleChange} className="auth-input" />
+    <AuthLayout>
+      <div className="login-card-logo">
+        <div className="login-card-logo-circle">
+          <i className="fa-solid fa-place-of-worship" />
         </div>
-
-        <button
-          onClick={handleRegister}
-          disabled={loading}
-          className="auth-button mt-6 disabled:opacity-60"
-        >
-          {loading ? "Registering..." : "Register"}
-        </button>
-
-        {/* ✅ FIXED LOGIN SWITCH */}
-        <p className="auth-footer">
-          Already registered?{" "}
-          <button
-            onClick={onSwitchToLogin}
-            className="text-orange-600 font-bold hover:underline"
-          >
-            Enter Sacred Login Portal
-          </button>
-        </p>
+        <h2>Temple Rituals</h2>
+        <h3>Register</h3>
+        <p>Create Your Sacred Account</p>
       </div>
-    </div>
+
+      {error && <div className="login-error">{error}</div>}
+      {success && <div className="login-success">{success}</div>}
+
+      <div className="login-input-group">
+        <i className="fa-solid fa-user login-input-icon" />
+        <input
+          name="name"
+          placeholder="Name"
+          value={form.name}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="login-input-group">
+        <i className="fa-solid fa-envelope login-input-icon" />
+        <input
+          name="email"
+          placeholder="Email Address"
+          value={form.email}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="login-input-group">
+        <i className="fa-solid fa-id-badge login-input-icon" />
+        <input
+          name="templeId"
+          placeholder="Temple ID"
+          value={form.templeId}
+          onChange={handleChange}
+        />
+      </div>
+
+      <div className="login-input-group">
+        <i className="fa-solid fa-lock login-input-icon" />
+        <input
+          type={showPassword ? "text" : "password"}
+          name="password"
+          placeholder="Password"
+          value={form.password}
+          onChange={handleChange}
+        />
+        <button
+          type="button"
+          className="login-eye-toggle"
+          onClick={() => setShowPassword((v) => !v)}
+          aria-label={showPassword ? "Hide password" : "Show password"}
+        >
+          <i className={`fa-solid ${showPassword ? "fa-eye" : "fa-eye-slash"}`} />
+        </button>
+      </div>
+
+      <div className="login-input-group">
+        <i className="fa-solid fa-lock login-input-icon" />
+        <input
+          type={showConfirm ? "text" : "password"}
+          name="confirm"
+          placeholder="Confirm Password"
+          value={form.confirm}
+          onChange={handleChange}
+        />
+        <button
+          type="button"
+          className="login-eye-toggle"
+          onClick={() => setShowConfirm((v) => !v)}
+          aria-label={showConfirm ? "Hide password" : "Show password"}
+        >
+          <i className={`fa-solid ${showConfirm ? "fa-eye" : "fa-eye-slash"}`} />
+        </button>
+      </div>
+
+      <button
+        className="login-submit"
+        onClick={handleRegister}
+        disabled={loading}
+      >
+        <i className="fa-solid fa-user-plus" />
+        {loading ? "Registering..." : "Register"}
+      </button>
+
+      <p className="login-register-row">
+        Already registered?{" "}
+        <button onClick={onSwitchToLogin}>Enter Sacred Login Portal</button>
+      </p>
+    </AuthLayout>
   );
 };
 

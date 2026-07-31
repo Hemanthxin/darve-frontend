@@ -211,6 +211,16 @@
   text-align: center;
 }
 
+.login-success {
+  background: #dcfce7;
+  color: #15803d;
+  font-size: 0.85rem;
+  padding: 10px 14px;
+  border-radius: 12px;
+  margin-bottom: 16px;
+  text-align: center;
+}
+
 .login-input-group {
   position: relative;
   display: flex;
