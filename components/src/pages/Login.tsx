@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import axios from "axios";
 import { User } from "../../../types";
 import { config } from "../../../src/config";
+import "../../styles/login.css";
 
 interface LoginProps {
   onLogin: (user: User) => void;
@@ -17,6 +18,7 @@ const isValidEmail = (email: string) =>
 const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToRegister }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -97,62 +99,132 @@ const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToRegister }) => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-orange-50">
-      <div className="bg-white p-8 rounded-2xl shadow-xl w-full max-w-sm">
-        <div className="text-center mb-6">
-          <div className="text-5xl text-orange-600 mb-2">🕉️</div>
-          <h1 className="text-2xl font-black">Temple Verifier</h1>
-          <p className="text-sm text-gray-400">
-            Sacred Login Portal
-          </p>
+    <div className="login-page">
+      <div className="login-overlay" />
+
+      {/* =======================
+         LEFT HERO
+      ======================= */}
+      <div className="login-hero">
+        <div className="login-hero-heading">
+          <span className="login-flourish">✦</span>
+          <h1>
+            Preserving Rituals.
+            <br />
+            Ensuring Devotion.
+          </h1>
+          <span className="login-flourish">✦</span>
+          <p>AI-Powered Verification for Sacred Ritual Practices</p>
         </div>
 
-        {error && (
-          <div className="bg-red-100 text-red-700 text-sm p-3 rounded-xl mb-4">
-            {error}
+        <div className="login-badge-ring">
+          <div className="login-badge-inner">
+            <i className="fa-solid fa-spa" />
+            <span>
+              Sacred Traditions
+              <br />
+              Powered by AI
+            </span>
           </div>
-        )}
+        </div>
 
-        <input
-          className="w-full mb-3 p-3 border rounded-xl"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
+        <div className="login-chips">
+          <div className="login-chip">
+            <span className="login-chip-icon">
+              <i className="fa-solid fa-shield-halved" />
+            </span>
+            Authentic
+            <br />
+            Verification
+          </div>
+          <div className="login-chip">
+            <span className="login-chip-icon">
+              <i className="fa-solid fa-microchip" />
+            </span>
+            AI-Powered
+            <br />
+            Accuracy
+          </div>
+          <div className="login-chip">
+            <span className="login-chip-icon">
+              <i className="fa-solid fa-lock" />
+            </span>
+            Secure &amp;
+            <br />
+            Reliable
+          </div>
+        </div>
+      </div>
 
-        <input
-          type="password"
-          className="w-full mb-2 p-3 border rounded-xl"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
+      {/* =======================
+         RIGHT LOGIN CARD
+      ======================= */}
+      <div className="login-card">
+        <div className="login-card-logo">
+          <div className="login-card-logo-circle">
+            <i className="fa-solid fa-place-of-worship" />
+          </div>
+          <h2>Temple Rituals</h2>
+          <h3>Verifier</h3>
+          <p>Secure Login Portal</p>
+        </div>
 
-        <div className="text-right mb-4">
+        {error && <div className="login-error">{error}</div>}
+
+        <div className="login-input-group">
+          <i className="fa-solid fa-user login-input-icon" />
+          <input
+            type="email"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+        </div>
+
+        <div className="login-input-group">
+          <i className="fa-solid fa-lock login-input-icon" />
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
           <button
-            onClick={() => setShowForgot(true)}
-            className="text-sm text-orange-600 font-semibold hover:underline"
+            type="button"
+            className="login-eye-toggle"
+            onClick={() => setShowPassword((v) => !v)}
+            aria-label={showPassword ? "Hide password" : "Show password"}
           >
-            Forgot password?
+            <i className={`fa-solid ${showPassword ? "fa-eye" : "fa-eye-slash"}`} />
           </button>
+        </div>
+
+        <div className="login-forgot-row">
+          <button onClick={() => setShowForgot(true)}>Forgot password?</button>
         </div>
 
         <button
+          className="login-submit"
           onClick={handleLogin}
           disabled={loading}
-          className="w-full bg-orange-600 text-white p-3 rounded-xl font-bold hover:bg-orange-700 disabled:opacity-60"
         >
+          <i className="fa-solid fa-shield-halved" />
           {loading ? "Logging in..." : "Login"}
         </button>
 
-        <p className="text-center mt-4 text-sm">
-          New here?{" "}
-          <button
-            onClick={onSwitchToRegister}
-            className="text-orange-600 font-bold hover:underline"
-          >
-            Register
+        <div className="login-divider">
+          <span>or continue with</span>
+        </div>
+
+        <div className="login-social-row">
+          <button className="login-social-btn" aria-label="Continue with SSO">
+            <i className="fa-solid fa-shield-halved" />
           </button>
+        </div>
+
+        <p className="login-register-row">
+          New here?{" "}
+          <button onClick={onSwitchToRegister}>Create an account</button>
         </p>
       </div>
 
@@ -160,43 +232,38 @@ const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToRegister }) => {
          FORGOT PASSWORD MODAL
       ======================= */}
       {showForgot && (
-        <div className="fixed inset-0 bg-black/40 flex items-center justify-center">
-          <div className="bg-white p-6 rounded-2xl w-full max-w-sm">
-            <h2 className="text-xl font-bold mb-2">
-              Forgot Password
-            </h2>
-            <p className="text-sm text-gray-500 mb-4">
-              Enter your registered email
-            </p>
+        <div className="login-modal-overlay">
+          <div className="login-modal">
+            <h2>Forgot Password</h2>
+            <p>Enter your registered email</p>
 
-            <input
-              className="w-full mb-3 p-3 border rounded-xl"
-              placeholder="Email address"
-              value={forgotEmail}
-              onChange={(e) => setForgotEmail(e.target.value)}
-            />
+            <div className="login-input-group">
+              <i className="fa-solid fa-user login-input-icon" />
+              <input
+                type="email"
+                placeholder="Email address"
+                value={forgotEmail}
+                onChange={(e) => setForgotEmail(e.target.value)}
+              />
+            </div>
 
-            {forgotMsg && (
-              <p className="text-sm text-center mb-3 text-gray-700">
-                {forgotMsg}
-              </p>
-            )}
+            {forgotMsg && <p className="login-modal-msg">{forgotMsg}</p>}
 
             <button
+              className="login-submit"
               onClick={handleForgotPassword}
               disabled={forgotLoading}
-              className="w-full bg-orange-600 text-white p-3 rounded-xl font-bold hover:bg-orange-700 disabled:opacity-60"
             >
               {forgotLoading ? "Sending..." : "Send Reset Link"}
             </button>
 
             <button
+              className="login-modal-cancel"
               onClick={() => {
                 setShowForgot(false);
                 setForgotEmail("");
                 setForgotMsg(null);
               }}
-              className="w-full mt-3 text-sm text-gray-500 hover:underline"
             >
               Cancel
             </button>
