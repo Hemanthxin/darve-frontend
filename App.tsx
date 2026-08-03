@@ -11,8 +11,8 @@ import { User, PoojaRecord } from "./types";
 type View = "HOME" | "HISTORY";
 
 const getStoredUser = (): User | null => {
-  const token = localStorage.getItem("authToken");
-  const storedUser = localStorage.getItem("authUser");
+  const token = localStorage.getItem("authToken") || sessionStorage.getItem("authToken");
+  const storedUser = localStorage.getItem("authUser") || sessionStorage.getItem("authUser");
 
   if (!token || !storedUser) return null;
 
@@ -36,6 +36,8 @@ const App: React.FC = () => {
   const handleLogout = () => {
     localStorage.removeItem("authToken");
     localStorage.removeItem("authUser");
+    sessionStorage.removeItem("authToken");
+    sessionStorage.removeItem("authUser");
     setUser(null);
     setRecords([]);
   };
