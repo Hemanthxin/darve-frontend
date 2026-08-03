@@ -1,3 +1,5 @@
+import React from "react";
+
 const GoogleIcon: React.FC<{ className?: string }> = ({ className = "h-5 w-5" }) => (
   <svg viewBox="0 0 48 48" className={className}>
     <path
