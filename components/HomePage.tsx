@@ -75,7 +75,13 @@ const HomePage: React.FC<HomePageProps> = ({ user, records, onRecordCreated, onV
   return (
     <div className="font-sans">
       {/* ============ HERO ============ */}
-      <section className="relative overflow-hidden bg-gradient-to-b from-orange-50/60 via-white to-white">
+      <section className="relative overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: "url(/temple-bg.png)", backgroundPosition: "50% 30%" }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-b from-orange-50/95 via-white/95 to-white" />
+
         <div className="absolute -top-24 -right-24 text-orange-200/50">
           <Mandala className="w-[420px] h-[420px]" />
         </div>
