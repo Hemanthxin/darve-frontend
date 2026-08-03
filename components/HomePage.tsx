@@ -78,12 +78,8 @@ const HomePage: React.FC<HomePageProps> = ({ user, records, onRecordCreated, onV
       <section className="relative overflow-hidden">
         <div
           className="absolute inset-0 bg-cover bg-center"
-          style={{ backgroundImage: "url(/temple-bg.png)", backgroundPosition: "50% 30%" }}
+          style={{ backgroundImage: "url(/hero-temple-bg.png)" }}
         />
-
-        <div className="absolute -top-24 -right-24 text-orange-200/50">
-          <Mandala className="w-[420px] h-[420px]" />
-        </div>
 
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 grid lg:grid-cols-2 gap-12 items-center">
           <div>
