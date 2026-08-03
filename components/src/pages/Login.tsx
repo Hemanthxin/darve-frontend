@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import { AnimatePresence, motion } from "framer-motion";
 import { User } from "../../../types";
 import { config } from "../../../src/config";
 import AuthLayout from "./AuthLayout";
@@ -145,14 +146,16 @@ const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToRegister }) => {
         <button onClick={() => setShowForgot(true)}>Forgot password?</button>
       </div>
 
-      <button
+      <motion.button
         className="login-submit"
         onClick={handleLogin}
         disabled={loading}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
       >
         <i className="fa-solid fa-shield-halved" />
         {loading ? "Logging in..." : "Login"}
-      </button>
+      </motion.button>
 
       <div className="login-divider">
         <span>or continue with</span>
@@ -172,45 +175,59 @@ const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToRegister }) => {
       {/* =======================
          FORGOT PASSWORD MODAL
       ======================= */}
-      {showForgot && (
-        <div className="login-modal-overlay">
-          <div className="login-modal">
-            <h2>Forgot Password</h2>
-            <p>Enter your registered email</p>
-
-            <div className="login-input-group">
-              <i className="fa-solid fa-user login-input-icon" />
-              <input
-                type="email"
-                placeholder="Email address"
-                value={forgotEmail}
-                onChange={(e) => setForgotEmail(e.target.value)}
-              />
-            </div>
-
-            {forgotMsg && <p className="login-modal-msg">{forgotMsg}</p>}
-
-            <button
-              className="login-submit"
-              onClick={handleForgotPassword}
-              disabled={forgotLoading}
+      <AnimatePresence>
+        {showForgot && (
+          <motion.div
+            className="login-modal-overlay"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <motion.div
+              className="login-modal"
+              initial={{ opacity: 0, y: 20, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.96 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
             >
-              {forgotLoading ? "Sending..." : "Send Reset Link"}
-            </button>
+              <h2>Forgot Password</h2>
+              <p>Enter your registered email</p>
 
-            <button
-              className="login-modal-cancel"
-              onClick={() => {
-                setShowForgot(false);
-                setForgotEmail("");
-                setForgotMsg(null);
-              }}
-            >
-              Cancel
-            </button>
-          </div>
-        </div>
-      )}
+              <div className="login-input-group">
+                <i className="fa-solid fa-user login-input-icon" />
+                <input
+                  type="email"
+                  placeholder="Email address"
+                  value={forgotEmail}
+                  onChange={(e) => setForgotEmail(e.target.value)}
+                />
+              </div>
+
+              {forgotMsg && <p className="login-modal-msg">{forgotMsg}</p>}
+
+              <button
+                className="login-submit"
+                onClick={handleForgotPassword}
+                disabled={forgotLoading}
+              >
+                {forgotLoading ? "Sending..." : "Send Reset Link"}
+              </button>
+
+              <button
+                className="login-modal-cancel"
+                onClick={() => {
+                  setShowForgot(false);
+                  setForgotEmail("");
+                  setForgotMsg(null);
+                }}
+              >
+                Cancel
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </AuthLayout>
   );
 };

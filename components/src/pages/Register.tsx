@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { motion } from "framer-motion";
 import AuthLayout from "./AuthLayout";
 import "../../styles/login.css";
 import { config } from "../../../src/config";
@@ -164,14 +165,16 @@ const Register: React.FC<RegisterProps> = ({ onSwitchToLogin }) => {
         </button>
       </div>
 
-      <button
+      <motion.button
         className="login-submit"
         onClick={handleRegister}
         disabled={loading}
+        whileHover={{ scale: 1.02 }}
+        whileTap={{ scale: 0.98 }}
       >
         <i className="fa-solid fa-user-plus" />
         {loading ? "Registering..." : "Register"}
-      </button>
+      </motion.button>
 
       <p className="login-register-row">
         Already registered?{" "}
