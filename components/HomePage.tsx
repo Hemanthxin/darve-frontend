@@ -80,7 +80,6 @@ const HomePage: React.FC<HomePageProps> = ({ user, records, onRecordCreated, onV
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: "url(/temple-bg.png)", backgroundPosition: "50% 30%" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-orange-50/70 via-white/75 to-white" />
 
         <div className="absolute -top-24 -right-24 text-orange-200/50">
           <Mandala className="w-[420px] h-[420px]" />
