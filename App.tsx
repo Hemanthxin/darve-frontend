@@ -100,6 +100,7 @@ const App: React.FC = () => {
                     records={records}
                     onRecordCreated={addRecord}
                     onViewHistory={() => handleNavigate("HISTORY")}
+                    onNavigate={handleNavigate}
                   />
                 ) : (
                   <main className="max-w-4xl mx-auto p-4">
