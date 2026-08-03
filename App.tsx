@@ -2,11 +2,13 @@ import React, { useState } from "react";
 import Login from "./components/src/pages/Login";
 import Register from "./components/src/pages/Register";
 import ResetPassword from "./components/src/pages/ResetPassword";
-import PoojaUpload from "./components/PoojaUpload";
+import HomePage from "./components/HomePage";
 import Dashboard from "./components/Dashboard";
 import Header from "./components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { User, PoojaRecord } from "./types";
+
+type View = "HOME" | "HISTORY";
 
 const getStoredUser = (): User | null => {
   const token = localStorage.getItem("authToken");
@@ -25,6 +27,7 @@ const App: React.FC = () => {
   const [user, setUser] = useState<User | null>(getStoredUser);
   const [records, setRecords] = useState<PoojaRecord[]>([]);
   const [showRegister, setShowRegister] = useState(false);
+  const [view, setView] = useState<View>("HOME");
 
   const handleLogin = (loggedUser: User) => {
     setUser(loggedUser);
@@ -39,6 +42,18 @@ const App: React.FC = () => {
 
   const addRecord = (record: PoojaRecord) => {
     setRecords(prev => [record, ...prev]);
+  };
+
+  const handleNavigate = (nextView: View, anchor?: string) => {
+    setView(nextView);
+
+    if (anchor) {
+      setTimeout(() => {
+        document.getElementById(anchor)?.scrollIntoView({ behavior: "smooth" });
+      }, 50);
+    } else {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
   };
 
   return (
@@ -74,13 +89,21 @@ const App: React.FC = () => {
                 <Header
                   user={user}
                   onLogout={handleLogout}
-                  setView={() => {}}
-                  currentView="HOME"
+                  onNavigate={handleNavigate}
+                  currentView={view}
                 />
-                <main className="max-w-4xl mx-auto p-4">
-                  <PoojaUpload user={user} onRecordCreated={addRecord} />
-                  <Dashboard records={records} />
-                </main>
+                {view === "HOME" ? (
+                  <HomePage
+                    user={user}
+                    records={records}
+                    onRecordCreated={addRecord}
+                    onViewHistory={() => handleNavigate("HISTORY")}
+                  />
+                ) : (
+                  <main className="max-w-4xl mx-auto p-4">
+                    <Dashboard records={records} />
+                  </main>
+                )}
               </>
             }
           />
