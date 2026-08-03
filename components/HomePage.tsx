@@ -80,7 +80,7 @@ const HomePage: React.FC<HomePageProps> = ({ user, records, onRecordCreated, onV
           className="absolute inset-0 bg-cover bg-center"
           style={{ backgroundImage: "url(/temple-bg.png)", backgroundPosition: "50% 30%" }}
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-orange-50/95 via-white/95 to-white" />
+        <div className="absolute inset-0 bg-gradient-to-b from-orange-50/70 via-white/75 to-white" />
 
         <div className="absolute -top-24 -right-24 text-orange-200/50">
           <Mandala className="w-[420px] h-[420px]" />
@@ -139,10 +139,9 @@ const HomePage: React.FC<HomePageProps> = ({ user, records, onRecordCreated, onV
           <Reveal delay={0.1} className="relative">
             <div className="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-orange-900/10 border border-orange-100/60 aspect-[4/3]">
               <div
-                className="absolute inset-0 bg-cover"
-                style={{ backgroundImage: "url(/temple-bg.png)", backgroundPosition: "30% 45%" }}
+                className="absolute inset-0 bg-cover bg-center"
+                style={{ backgroundImage: "url(/image.png)" }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/25 via-transparent to-transparent" />
             </div>
 
             <motion.div
