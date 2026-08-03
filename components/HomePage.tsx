@@ -64,9 +64,9 @@ const trustPoints = [
 ];
 
 const gallery = [
-  { position: "0% 40%", title: "Sacred Architecture", sub: "Centuries of devotion, carved in stone" },
-  { position: "50% 40%", title: "Daily Rituals", sub: "Verified with care, every single day" },
-  { position: "100% 40%", title: "Living Tradition", sub: "Technology in service of faith" },
+  { image: "/temple-bg.png", position: "0% 35%", title: "Sacred Architecture", sub: "Centuries of devotion, carved in stone" },
+  { image: "/ai-flower-detection.png", position: "50% 55%", title: "Daily Rituals", sub: "Verified with care, every single day" },
+  { image: "/ai-lamp-identification.png", position: "20% 45%", title: "Living Tradition", sub: "Technology in service of faith" },
 ];
 
 const HomePage: React.FC<HomePageProps> = ({ user, records, onRecordCreated, onViewHistory, onNavigate }) => {
@@ -135,7 +135,7 @@ const HomePage: React.FC<HomePageProps> = ({ user, records, onRecordCreated, onV
             <div className="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-orange-900/10 border border-orange-100/60 aspect-[4/3]">
               <div
                 className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: "url(/image.png)" }}
+                style={{ backgroundImage: "url(/ai-deity-identification.png)" }}
               />
             </div>
 
@@ -149,8 +149,8 @@ const HomePage: React.FC<HomePageProps> = ({ user, records, onRecordCreated, onV
                 <i className="fas fa-check text-sm"></i>
               </div>
               <div>
-                <p className="text-sm font-black text-gray-900 leading-none">Pooja Verified</p>
-                <p className="text-[11px] text-gray-400 mt-1">via AI in 2.3s</p>
+                <p className="text-sm font-black text-gray-900 leading-none">Deity Identified</p>
+                <p className="text-[11px] text-gray-400 mt-1">Lord Shiva · 99.7% confidence</p>
               </div>
             </motion.div>
           </Reveal>
@@ -242,7 +242,7 @@ const HomePage: React.FC<HomePageProps> = ({ user, records, onRecordCreated, onV
                 <div className="relative rounded-2xl overflow-hidden aspect-[3/4] shadow-lg shadow-gray-900/5 group">
                   <div
                     className="absolute inset-0 bg-cover transition-transform duration-500 group-hover:scale-110"
-                    style={{ backgroundImage: "url(/temple-bg.png)", backgroundPosition: g.position }}
+                    style={{ backgroundImage: `url(${g.image})`, backgroundPosition: g.position }}
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/10 to-transparent" />
                   <div className="absolute bottom-0 left-0 right-0 p-5">
