@@ -54,6 +54,7 @@ const Login: React.FC<LoginProps> = ({ onLogin, onSwitchToRegister }) => {
         { email, password }
       );
       localStorage.setItem("authToken", res.data.access_token);
+      localStorage.setItem("authUser", JSON.stringify(res.data.user));
       onLogin(res.data.user);
     } catch (err: any) {
       setError(

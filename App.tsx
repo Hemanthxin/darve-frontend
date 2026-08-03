@@ -8,8 +8,21 @@ import Header from "./components/Header";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { User, PoojaRecord } from "./types";
 
+const getStoredUser = (): User | null => {
+  const token = localStorage.getItem("authToken");
+  const storedUser = localStorage.getItem("authUser");
+
+  if (!token || !storedUser) return null;
+
+  try {
+    return JSON.parse(storedUser) as User;
+  } catch {
+    return null;
+  }
+};
+
 const App: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User | null>(getStoredUser);
   const [records, setRecords] = useState<PoojaRecord[]>([]);
   const [showRegister, setShowRegister] = useState(false);
 
@@ -18,6 +31,8 @@ const App: React.FC = () => {
   };
 
   const handleLogout = () => {
+    localStorage.removeItem("authToken");
+    localStorage.removeItem("authUser");
     setUser(null);
     setRecords([]);
   };
