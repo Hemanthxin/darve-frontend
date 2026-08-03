@@ -64,9 +64,9 @@ const trustPoints = [
 ];
 
 const gallery = [
-  { image: "/temple-bg.png", position: "0% 35%", title: "Sacred Architecture", sub: "Centuries of devotion, carved in stone" },
-  { image: "/ai-flower-detection.png", position: "50% 55%", title: "Daily Rituals", sub: "Verified with care, every single day" },
-  { image: "/ai-lamp-identification.png", position: "20% 45%", title: "Living Tradition", sub: "Technology in service of faith" },
+  { image: "/ai-deity-identification.png", position: "50% 40%", title: "Deity Identification", sub: "AI recognizes deities and idols instantly" },
+  { image: "/ai-flower-detection.png", position: "50% 55%", title: "Flower Detection", sub: "Every offering identified and verified" },
+  { image: "/ai-lamp-identification.png", position: "20% 45%", title: "Lamp Identification", sub: "Deepams tracked with precision" },
 ];
 
 const HomePage: React.FC<HomePageProps> = ({ user, records, onRecordCreated, onViewHistory, onNavigate }) => {
@@ -135,7 +135,7 @@ const HomePage: React.FC<HomePageProps> = ({ user, records, onRecordCreated, onV
             <div className="relative rounded-[2rem] overflow-hidden shadow-2xl shadow-orange-900/10 border border-orange-100/60 aspect-[4/3]">
               <div
                 className="absolute inset-0 bg-cover bg-center"
-                style={{ backgroundImage: "url(/ai-deity-identification.png)" }}
+                style={{ backgroundImage: "url(/image.png)" }}
               />
             </div>
 
@@ -149,8 +149,8 @@ const HomePage: React.FC<HomePageProps> = ({ user, records, onRecordCreated, onV
                 <i className="fas fa-check text-sm"></i>
               </div>
               <div>
-                <p className="text-sm font-black text-gray-900 leading-none">Deity Identified</p>
-                <p className="text-[11px] text-gray-400 mt-1">Lord Shiva · 99.7% confidence</p>
+                <p className="text-sm font-black text-gray-900 leading-none">Ritual Setup Verified</p>
+                <p className="text-[11px] text-gray-400 mt-1">8 ritual items detected</p>
               </div>
             </motion.div>
           </Reveal>
