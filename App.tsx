@@ -5,8 +5,9 @@ import ResetPassword from "./components/src/pages/ResetPassword";
 import HomePage from "./components/HomePage";
 import Dashboard from "./components/Dashboard";
 import Header from "./components/Header";
+import AdminDashboard from "./components/admin/AdminDashboard";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { User, PoojaRecord } from "./types";
+import { User, PoojaRecord, UserRole } from "./types";
 
 type View = "HOME" | "HISTORY";
 
@@ -82,8 +83,16 @@ const App: React.FC = () => {
           />
         )}
 
+        {/* 🔒 Logged in as admin */}
+        {user && user.role === UserRole.ADMIN && (
+          <Route
+            path="*"
+            element={<AdminDashboard user={user} onLogout={handleLogout} />}
+          />
+        )}
+
         {/* 🔒 Logged in */}
-        {user && (
+        {user && user.role !== UserRole.ADMIN && (
           <Route
             path="*"
             element={

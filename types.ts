@@ -47,3 +47,35 @@ export interface Notification {
   date: string;
   read: boolean;
 }
+
+export interface AdminUserSummary {
+  id: string;
+  name: string;
+  email: string;
+  templeId: string;
+  role: UserRole;
+  createdAt: string;
+  totalSubmissions: number;
+  doneCount: number;
+  notDoneCount: number;
+  unclearCount: number;
+}
+
+export interface AdminVerificationRecord {
+  id: string;
+  userId: string;
+  userName: string;
+  templeId: string;
+  status: PoojaStatus;
+  confidence: number | null;
+  reasons: string[];
+  createdAt: string;
+}
+
+export interface AdminStats {
+  totalUsers: number;
+  totalRecords: number;
+  statusBreakdown: { status: PoojaStatus; count: number }[];
+  perTemple: { templeId: string; count: number }[];
+  recordsByDay: { date: string; count: number }[];
+}
